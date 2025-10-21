@@ -1,0 +1,6 @@
+<resources>
+    <!-- Use Material Design theme to avoid inflate crashes with Material widgets -->
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+</resources>

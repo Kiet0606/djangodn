@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>HR - Nhân viên</title></head>
+<body>
+  <h2>HR - Quản lý tài khoản nhân viên</h2>
+  <form method="get">
+    <input type="text" name="q" placeholder="Tìm kiếm..." value="{{ q }}">
+    <button type="submit">Tìm</button>
+    <a href="{% url 'hr_new_employee' %}">+ Tạo mới</a>
+    <a href="{% url 'hr_import' %}">Import Excel</a>
+    <a href="{% url 'web_logout' %}">Đăng xuất</a>
+  </form>
+  <table border="1" cellpadding="4" cellspacing="0">
+    <tr><th>Username</th><th>Họ</th><th>Tên</th><th>Email</th><th>Điện thoại</th><th>Vai trò</th><th>Địa điểm</th><th>Trạng thái</th><th>Hành động</th></tr>
+    {% for e in items %}
+      <tr>
+        <td>{{ e.username }}</td>
+        <td>{{ e.last_name }}</td>
+        <td>{{ e.first_name }}</td>
+        <td>{{ e.email }}</td>
+        <td>{{ e.phone }}</td>
+        <td>{{ e.role.name }}</td>
+        <td>{% if e.work_location %}{{ e.work_location.name }}{% endif %}</td>
+        <td>{{ e.is_active }}</td>
+        <td>
+          <a href="{% url 'hr_edit_employee' e.id %}">Sửa</a> |
+          <a href="{% url 'hr_reset_password' e.id %}">Reset mật khẩu</a> |
+          <a href="{% url 'hr_lock_employee' e.id %}">Khóa</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</body></html>

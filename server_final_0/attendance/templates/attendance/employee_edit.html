@@ -1,0 +1,59 @@
+
+{% extends "attendance/base.html" %}
+{% block title %}Sửa nhân viên{% endblock %}
+{% block content %}
+<h5>Sửa nhân viên: {{ emp.user.username }}</h5>
+<form method="post">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="mb-2"><label class="form-label">Họ</label><input name="last_name" class="form-control" value="{{ emp.user.last_name }}"></div>
+      <div class="mb-2"><label class="form-label">Tên</label><input name="first_name" class="form-control" value="{{ emp.user.first_name }}"></div>
+      <div class="mb-2"><label class="form-label">Email</label><input name="email" type="email" class="form-control" value="{{ emp.user.email }}"></div>
+      <div class="mb-2"><label class="form-label">Điện thoại</label><input name="phone" class="form-control" value="{{ emp.phone }}"></div>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-2">
+        <label class="form-label">Vai trò</label>
+        <select name="role_id" class="form-select">
+          <option value="">--</option>
+          {% for r in roles %}<option value="{{ r.id }}" {% if emp.role and emp.role.id == r.id %}selected{% endif %}>{{ r.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Ca làm việc</label>
+        <select name="shift_id" class="form-select">
+          <option value="">--</option>
+          {% for s in shifts %}<option value="{{ s.id }}" {% if emp.shift and emp.shift.id == s.id %}selected{% endif %}>{{ s.name }} ({{ s.start_time }}-{{ s.end_time }})</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Phòng ban</label>
+        <select name="department_id" class="form-select">
+          <option value="">--</option>
+          {% for d in departments %}<option value="{{ d.id }}" {% if emp.department and emp.department.id == d.id %}selected{% endif %}>{{ d.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Chức vụ</label>
+        <select name="position_id" class="form-select">
+          <option value="">--</option>
+          {% for p in positions %}<option value="{{ p.id }}" {% if emp.position and emp.position.id == p.id %}selected{% endif %}>{{ p.name }} - {{ p.department.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-2 form-check">
+        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {% if emp.is_active %}checked{% endif %}>
+        <label class="form-check-label" for="is_active">Kích hoạt</label>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Địa điểm được phép</label>
+        <select name="allowed_location_ids" class="form-select" multiple size="5">
+          {% for l in locations %}<option value="{{ l.id }}" {% if l in emp.allowed_locations.all %}selected{% endif %}>{{ l.name }}</option>{% endfor %}
+        </select>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary">Lưu</button>
+  <a class="btn btn-secondary" href="/web/employees/">Quay lại</a>
+</form>
+{% endblock %}

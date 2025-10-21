@@ -1,0 +1,36 @@
+
+{% extends "attendance/base.html" %}
+{% block title %}Tổng hợp công{% endblock %}
+{% block content %}
+<h5>Tổng hợp bảng công theo tháng</h5>
+<form class="row gy-2 gx-2 align-items-center">
+  <div class="col-auto">
+    <input type="month" class="form-control" name="month" value="{{ month }}">
+  </div>
+  <div class="col-auto"><button class="btn btn-primary">Xem</button></div>
+  <div class="col-auto"><a class="btn btn-outline-success" href="/web/attendance/monthly/export/?month={{ month }}">Xuất CSV</a></div>
+</form>
+
+<div class="table-responsive mt-3">
+  <table class="table table-bordered table-sticky">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Họ tên</th>
+        {% for d in days %}<th>{{ d|date:"d/m" }}</th>{% endfor %}
+        <th>Tổng giờ</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+        <tr>
+          <td>{{ row.employee.user.username }}</td>
+          <td>{{ row.employee.user.get_full_name }}</td>
+          {% for h in row.daily %}<td>{{ h }}</td>{% endfor %}
+          <td><b>{{ row.total }}</b></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

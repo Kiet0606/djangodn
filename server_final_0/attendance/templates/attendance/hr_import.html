@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>HR - Import Excel</title></head>
+<body>
+  <h2>Import Excel (định dạng cột: username, first_name, last_name, email, phone, work_location_id, role(optional))</h2>
+  {% if message %}<p>{{ message }}</p>{% endif %}
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <input type="file" name="file" accept=".xlsx,.xls">
+    <button type="submit">Import</button>
+    <a href="{% url 'hr_employees' %}">Quay lại</a>
+  </form>
+</body></html>

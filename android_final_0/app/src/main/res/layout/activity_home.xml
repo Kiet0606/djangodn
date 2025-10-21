@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="24dp">
+
+    <TextView android:id="@+id/welcomeText" android:text="Xin chào" android:textSize="18sp"
+        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/clockBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CHẤM CÔNG"
+        android:textSize="26sp" />
+
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+        <Button android:id="@+id/historyBtn" android:text="Lịch sử" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+        <Button android:id="@+id/profileBtn" android:text="Cá nhân" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <TextView android:id="@+id/statusText" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="" android:paddingTop="16dp"/>
+
+</LinearLayout>

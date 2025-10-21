@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Attendance</title></head>
+<body>
+  <h1>Trang chủ</h1>
+  {% if is_logged_in %}
+    <p>Đã đăng nhập vai trò: <b>{{ role }}</b></p>
+    <p><a href="{% url 'web_logout' %}">Đăng xuất</a></p>
+    <ul>
+      <li><a href="{% url 'mgr_dashboard' %}">Bảng điều khiển Quản lý</a></li>
+      <li><a href="{% url 'hr_employees' %}">Quản trị HR</a></li>
+    </ul>
+  {% else %}
+    <a href="{% url 'web_login' %}">Login</a>
+  {% endif %}
+</body></html>

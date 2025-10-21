@@ -1,0 +1,71 @@
+
+{% extends "attendance/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-auto">
+    <form class="row gy-2 gx-2 align-items-center">
+      <div class="col-auto">
+        <input type="date" class="form-control" name="date" value="{{ date|date:'Y-m-d' }}">
+      </div>
+      <div class="col-auto">
+        <select class="form-select" name="view">
+          <option value="day" {% if view == 'day' %}selected{% endif %}>Ngày</option>
+          <option value="month" {% if view == 'month' %}selected{% endif %}>Tháng</option>
+          <option value="year" {% if view == 'year' %}selected{% endif %}>Năm</option>
+        </select>
+      </div>
+      <div class="col-auto"><button class="btn btn-primary">Lọc</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="row mt-3 g-3">
+  <div class="col"><div class="card card-stat"><div class="card-body">
+    <h6 class="text-muted">Tổng nhân viên</h6>
+    <div class="display-6">{{ total_emp }}</div>
+  </div></div></div>
+  <div class="col"><div class="card card-stat"><div class="card-body">
+    <h6 class="text-muted">Có mặt</h6>
+    <div class="display-6">{{ present }}</div>
+  </div></div></div>
+  <div class="col"><div class="card card-stat"><div class="card-body">
+    <h6 class="text-muted">Vắng</h6>
+    <div class="display-6">{{ absent }}</div>
+  </div></div></div>
+  <div class="col"><div class="card card-stat"><div class="card-body">
+    <h6 class="text-muted">Đi trễ</h6>
+    <div class="display-6">{{ late_count }}</div>
+  </div></div></div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12 col-lg-6">
+    <div class="card"><div class="card-header">Tỷ lệ chuyên cần theo ngày</div><div class="card-body">
+      <canvas id="chartAttendance"></canvas>
+    </div></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card"><div class="card-header">Tổng giờ làm thêm (ước tính)</div><div class="card-body">
+      <canvas id="chartOvertime"></canvas>
+    </div></div>
+  </div>
+</div>
+
+<script>
+  const labels = [{% for d,h in daily_hours %}"{{ d|date:'d/m' }}",{% endfor %}];
+  const values = [{% for d,h in daily_hours %}{{ h|floatformat:2 }},{% endfor %}];
+
+  new Chart(document.getElementById('chartAttendance'), {
+    type: 'line',
+    data: { labels: labels, datasets: [{ label: 'Tổng giờ', data: values }]},
+    options: { scales: { y: { beginAtZero: true } } }
+  });
+
+  new Chart(document.getElementById('chartOvertime'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [{ label: 'Giờ (ước tính)', data: values }]},
+    options: { scales: { y: { beginAtZero: true } } }
+  });
+</script>
+{% endblock %}

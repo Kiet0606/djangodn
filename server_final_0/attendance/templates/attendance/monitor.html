@@ -1,0 +1,28 @@
+
+{% extends "attendance/base.html" %}
+{% block title %}Giám sát thời gian thực{% endblock %}
+{% block content %}
+<h4>Giám sát thời gian thực</h4>
+<p class="text-muted">Danh sách check-in/out mới nhất (tự làm mới trang để cập nhật).</p>
+<table class="table table-striped">
+  <thead><tr><th>Thời gian</th><th>Nhân viên</th><th>Loại</th><th>Địa điểm</th><th>Vị trí</th><th>Khoảng cách</th><th>Hợp lệ</th><th></th></tr></thead>
+  <tbody>
+    {% for r in records %}
+      <tr>
+        <td>{{ r.timestamp|date:"d/m/Y H:i" }}</td>
+        <td>{{ r.employee.user.username }}</td>
+        <td><span class="badge {% if r.type == 'IN' %}bg-success{% else %}bg-secondary{% endif %}">{{ r.type }}</span></td>
+        <td>{{ r.work_location.name }}</td>
+        <td>{{ r.latitude }}, {{ r.longitude }}</td>
+        <td>{{ r.distance_m|floatformat:1 }} m</td>
+        <td>{% if r.within_geofence %}✔{% else %}✖{% endif %}</td>
+        <td>
+          <a class="btn btn-sm btn-outline-primary" target="_blank" href="https://www.openstreetmap.org/?mlat={{ r.latitude }}&mlon={{ r.longitude }}#map=18/{{ r.latitude }}/{{ r.longitude }}">Bản đồ</a>
+          <a class="btn btn-sm btn-outline-secondary" href="/web/attendance/{{ r.id }}/edit/">Sửa</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p><a class="btn btn-primary" href="/web/attendance/new/">Thêm bản ghi thủ công</a></p>
+{% endblock %}

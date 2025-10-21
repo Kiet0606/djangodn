@@ -1,0 +1,22 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:padding="16dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <EditText android:id="@+id/firstName" android:hint="Họ" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/lastName" android:hint="Tên" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/email" android:hint="Email" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/phone" android:hint="Điện thoại" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        <Button android:id="@+id/saveBtn" android:text="Lưu thông tin" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#DDD" android:layout_marginTop="16dp" android:layout_marginBottom="16dp"/>
+
+        <EditText android:id="@+id/pass1" android:hint="Mật khẩu mới" android:inputType="textPassword" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/pass2" android:hint="Nhập lại mật khẩu mới" android:inputType="textPassword" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <Button android:id="@+id/changePassBtn" android:text="Đổi mật khẩu" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        <TextView android:id="@+id/infoText" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="12dp"/>
+
+    </LinearLayout>
+</ScrollView>

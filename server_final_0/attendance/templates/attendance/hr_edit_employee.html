@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>{% if item %}Sửa{% else %}Tạo{% endif %} nhân viên</title></head>
+<body>
+  <h2>{% if item %}Sửa{% else %}Tạo{% endif %} nhân viên</h2>
+  <form method="post">{% csrf_token %}
+    <label>Username: <input type="text" name="username" value="{{ item.username|default_if_none:'' }}"></label><br>
+    <label>Họ: <input type="text" name="last_name" value="{{ item.last_name|default_if_none:'' }}"></label><br>
+    <label>Tên: <input type="text" name="first_name" value="{{ item.first_name|default_if_none:'' }}"></label><br>
+    <label>Email: <input type="email" name="email" value="{{ item.email|default_if_none:'' }}"></label><br>
+    <label>Điện thoại: <input type="text" name="phone" value="{{ item.phone|default_if_none:'' }}"></label><br>
+    <label>Vai trò:
+      <select name="role_id">
+        {% for r in roles %}
+          <option value="{{ r.id }}" {% if item and item.role.id == r.id %}selected{% endif %}>{{ r.name }}</option>
+        {% endfor %}
+      </select>
+    </label><br>
+    <label>Địa điểm làm việc:
+      <select name="work_location_id">
+        <option value="">-- None --</option>
+        {% for w in wls %}
+          <option value="{{ w.id }}" {% if item and item.work_location and item.work_location.id == w.id %}selected{% endif %}>{{ w.name }}</option>
+        {% endfor %}
+      </select>
+    </label><br>
+    {% if item %}
+      <label><input type="checkbox" name="is_active" {% if item.is_active %}checked{% endif %}> Kích hoạt</label><br>
+      <label><input type="checkbox" name="reset_password"> Reset mật khẩu về 12345678</label><br>
+    {% endif %}
+    <button type="submit">Lưu</button>
+    <a href="{% url 'hr_employees' %}">Quay lại</a>
+  </form>
+</body></html>

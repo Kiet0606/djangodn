@@ -1,0 +1,38 @@
+
+{% extends "attendance/base.html" %}
+{% block title %}Sửa chấm công{% endblock %}
+{% block content %}
+<h5>Sửa bản ghi #{{ a.id }}</h5>
+<form method="post">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-6">
+      <label class="form-label">Loại</label>
+      <select name="type" class="form-select">
+        <option value="IN" {% if a.type == 'IN' %}selected{% endif %}>IN</option>
+        <option value="OUT" {% if a.type == 'OUT' %}selected{% endif %}>OUT</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Thời gian</label>
+      <input name="timestamp" class="form-control" value="{{ a.timestamp|date:'Y-m-d H:i' }}">
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-4"><label class="form-label">Vĩ độ</label><input name="latitude" class="form-control" value="{{ a.latitude }}"></div>
+    <div class="col-md-4"><label class="form-label">Kinh độ</label><input name="longitude" class="form-control" value="{{ a.longitude }}"></div>
+    <div class="col-md-4">
+      <label class="form-label">Địa điểm</label>
+      <select name="work_location_id" class="form-select">
+        {% for l in locations %}<option value="{{ l.id }}" {% if a.work_location.id == l.id %}selected{% endif %}>{{ l.name }}</option>{% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="mt-2"><label class="form-label">Ghi chú</label><input name="note" class="form-control" value="{{ a.note }}"></div>
+  <div class="mt-2"><label class="form-label">Lý do thay đổi</label><input name="reason" class="form-control"></div>
+  <div class="mt-3">
+    <button class="btn btn-primary">Lưu</button>
+    <a class="btn btn-secondary" href="/web/monitor/">Quay lại</a>
+  </div>
+</form>
+{% endblock %}

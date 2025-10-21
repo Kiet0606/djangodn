@@ -1,0 +1,80 @@
+
+{% extends "attendance/base.html" %}
+{% block title %}Quản lý nhân viên{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <h5>Danh sách nhân viên</h5>
+    <table class="table table-hover">
+      <thead><tr><th>Username</th><th>Họ tên</th><th>Vai trò</th><th>Ca</th><th>Phòng ban</th><th>Tình trạng</th><th></th></tr></thead>
+      <tbody>
+        {% for e in employees %}
+          <tr>
+            <td>{{ e.user.username }}</td>
+            <td>{{ e.user.get_full_name }}</td>
+            <td>{% if e.role %}{{ e.role.name }}{% endif %}</td>
+            <td>{% if e.shift %}{{ e.shift.name }}{% else %}-{% endif %}</td>
+            <td>{% if e.department %}{{ e.department.name }}{% else %}-{% endif %}</td>
+
+            
+            <td>{% if e.is_active %}<span class="badge bg-success">Kích hoạt</span>{% else %}<span class="badge bg-secondary">Vô hiệu</span>{% endif %}</td>
+            <td>
+              <a class="btn btn-sm btn-outline-secondary" href="/web/employees/{{ e.id }}/edit/">Sửa</a>
+              <a class="btn btn-sm btn-outline-warning" href="/web/employees/{{ e.id }}/toggle/">Bật/Tắt</a>
+              <a class="btn btn-sm btn-outline-danger" href="/web/employees/{{ e.id }}/reset-password/">Reset mật khẩu</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-4">
+    <h5>Thêm nhân viên</h5>
+    {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="create">
+      <div class="mb-2"><label class="form-label">Username</label><input name="username" class="form-control" required></div>
+      <div class="mb-2"><label class="form-label">Họ</label><input name="last_name" class="form-control"></div>
+      <div class="mb-2"><label class="form-label">Tên</label><input name="first_name" class="form-control"></div>
+      <div class="mb-2"><label class="form-label">Email</label><input name="email" type="email" class="form-control"></div>
+      <div class="mb-2"><label class="form-label">Điện thoại</label><input name="phone" class="form-control"></div>
+      <div class="mb-2">
+        <label class="form-label">Vai trò</label>
+        <select name="role_id" class="form-select">
+          <option value="">--</option>
+          {% for r in roles %}<option value="{{ r.id }}">{{ r.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Ca làm việc</label>
+        <select name="shift_id" class="form-select">
+          <option value="">--</option>
+          {% for s in shifts %}<option value="{{ s.id }}">{{ s.name }} ({{ s.start_time }}-{{ s.end_time }})</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Phòng ban</label>
+        <select name="department_id" class="form-select">
+          <option value="">--</option>
+          {% for d in departments %}<option value="{{ d.id }}">{{ d.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Chức vụ</label>
+        <select name="position_id" class="form-select">
+          <option value="">--</option>
+          {% for p in positions %}<option value="{{ p.id }}">{{ p.name }} - {{ p.department.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Địa điểm được phép</label>
+        <select name="allowed_location_ids" class="form-select" multiple size="5">
+          {% for l in locations %}<option value="{{ l.id }}">{{ l.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <button class="btn btn-primary">Tạo (mật khẩu mặc định: 12345678)</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

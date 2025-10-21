@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Dashboard Quản lý</title></head>
+<body>
+  <h2>Dashboard Quản lý</h2>
+  <form method="get">
+    Từ ngày: <input type="date" name="start" value="{{ start }}">
+    Đến ngày: <input type="date" name="end" value="{{ end }}">
+    Địa điểm:
+    <select name="location">
+      <option value="">-- Tất cả --</option>
+      {% for l in locations %}
+        <option value="{{ l.id }}" {% if selected_location == l.id %}selected{% endif %}>{{ l.name }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Lọc</button>
+    <a href="{% url 'mgr_export_attendance' %}?start={{ start }}&end={{ end }}{% if selected_location %}&location={{ selected_location }}{% endif %}">Xuất CSV</a>
+    <a href="{% url 'web_logout' %}">Đăng xuất</a>
+  </form>
+  <p>Nhân viên đi làm (có IN): <b>{{ present_count }}</b> / Tổng: <b>{{ total }}</b> → Vắng: <b>{{ absent_count }}</b></p>
+  <table border="1" cellpadding="4" cellspacing="0">
+    <tr><th>Thời gian</th><th>Username</th><th>Loại</th><th>Địa điểm</th><th>Trong vùng</th><th>Khoảng cách (m)</th></tr>
+    {% for r in records %}
+      <tr>
+        <td>{{ r.timestamp }}</td>
+        <td>{{ r.employee.username }}</td>
+        <td>{{ r.type }}</td>
+        <td>{{ r.work_location.name }}</td>
+        <td>{{ r.within_geofence }}</td>
+        <td>{{ r.distance_m|floatformat:2 }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</body></html>

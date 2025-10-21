@@ -1,0 +1,26 @@
+
+{% extends "attendance/base.html" %}
+{% block title %}Quản lý ca làm việc{% endblock %}
+{% block content %}
+<h5>Ca làm việc</h5>
+<form method="post" class="row g-2 align-items-end">
+  {% csrf_token %}
+  <input type="hidden" name="id" value="">
+  <div class="col"><label class="form-label">Tên ca</label><input name="name" class="form-control" required></div>
+  <div class="col"><label class="form-label">Bắt đầu</label><input name="start_time" type="time" class="form-control" required></div>
+  <div class="col"><label class="form-label">Kết thúc</label><input name="end_time" type="time" class="form-control" required></div>
+  <div class="col"><label class="form-label">Nghỉ (phút)</label><input name="break_minutes" type="number" class="form-control" value="0"></div>
+  <div class="col"><label class="form-label">Cho phép trễ (phút)</label><input name="late_grace_min" type="number" class="form-control" value="5"></div>
+  <div class="col"><label class="form-label">Cho phép về sớm (phút)</label><input name="early_grace_min" type="number" class="form-control" value="5"></div>
+  <div class="col-auto"><button class="btn btn-primary">Thêm/Sửa</button></div>
+</form>
+
+<table class="table table-striped mt-3">
+  <thead><tr><th>Tên ca</th><th>Bắt đầu</th><th>Kết thúc</th><th>Nghỉ</th><th>Trễ</th><th>Về sớm</th></tr></thead>
+  <tbody>
+    {% for s in shifts %}
+      <tr><td>{{ s.name }}</td><td>{{ s.start_time }}</td><td>{{ s.end_time }}</td><td>{{ s.break_minutes }}</td><td>{{ s.late_grace_min }}</td><td>{{ s.early_grace_min }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
